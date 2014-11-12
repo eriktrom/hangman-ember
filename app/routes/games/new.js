@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   },
 
   deactivate: function () {
-    this.model.destroyRecord();
+    this.modelFor('games/new').destroyRecord();
   },
 
   actions: {
