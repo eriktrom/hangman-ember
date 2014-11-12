@@ -11,4 +11,10 @@ export default DS.Model.extend({
   placeholder: Ember.computed.reads('placeholderDefault'),
   missedLetters: Ember.A(),
   foundLetters: Ember.A(),
+  words: [
+    'foo',
+    'bar',
+    'bittitan',
+    'something'
+  ]
 });

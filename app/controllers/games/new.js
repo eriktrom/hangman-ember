@@ -3,13 +3,7 @@ var run = Ember.run;
 
 export default Ember.ObjectController.extend({
   generatedLetters: function () {
-    var words = [
-      'foo',
-      'bar',
-      'bittitan',
-      'something'
-    ];
-
+    var words = this.get('words');
     return words[Math.floor(Math.random() * words.length)].split('');
   }.property(),
 
