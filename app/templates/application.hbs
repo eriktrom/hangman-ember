@@ -1,4 +1,10 @@
-<h2 id='title'>Hangman</h2>
-<button {{action "newGame"}}>New Game</button>
+<nav class='row'>
+  <h2 class='four-fifth'>Hangman</h2>
+  <div class="fifth">
+    <button {{action "newGame"}}>New Game</button>
+  </div>
+</nav>
 
-{{outlet}}
+<div id='main' class='row'>
+  {{outlet}}
+</div>

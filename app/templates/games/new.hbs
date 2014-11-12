@@ -1,0 +1,32 @@
+<div id="game-board" class="four-fifth">
+  <form {{action 'playLetter' on='submit'}}>
+    <label>{{input value=currentGuess placeholder=placeholder}}</label>
+  </form>
+
+  <ul>
+    {{#each letter in foundLetters}}
+      <li>{{letter}}</li>
+    {{/each}}
+  </ul>
+</div>
+
+<div id="sidebar" class="fifth">
+
+  <div class="row">
+    <div class="full">
+      Remaining: {{remainingGuesses}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="full">
+      <h3>Missed Letters</h3>
+      <ul>
+        {{#each letter in missedLetters}}
+          <li>{{letter}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+</div>
