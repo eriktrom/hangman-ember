@@ -2,15 +2,13 @@ import Ember from 'ember';
 var run = Ember.run;
 
 export default Ember.ObjectController.extend({
-  generatedLetters: function () {
+  letters: function () {
     var words = this.get('words');
     return words[Math.floor(Math.random() * words.length)].split('');
   }.property(),
 
-  didTypeSecondLetter: function () {
-    run(this, function () {
-      run.once(this, '_displayError');
-    });
+  didTypeLetter: function () {
+    run.once(this, '_displayError');
   }.on('init').observes('currentGuess'),
 
   actions: {
@@ -21,17 +19,11 @@ export default Ember.ObjectController.extend({
 
   // private
 
-    _displayError: function () {
-      var currentGuess = this.get('currentGuess');
-      if (currentGuess && currentGuess.length > 1) {
-        this._resetInput(true);
-      }
-    },
-
-    _resetInput: function (isError) {
-      var msg =
-        isError ? 'Only one letter please!' : this.get('placeHolderDefault');
-      this.set('placeholder', msg);
+  _displayError: function () {
+    if (this.get('currentGuess') && this.get('currentGuess').length > 1) {
+      this.set('placeholder',
+        this.getWithDefault('placeHolderDefault', 'Only one letter please!'));
       this.set('currentGuess', null);
-    },
+    }
+  }
 });
