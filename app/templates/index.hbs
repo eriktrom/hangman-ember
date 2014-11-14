@@ -1,3 +1,51 @@
-<div class="full">
-  <button {{action "newGame"}}>New Game</button>
+<nav class='row'>
+  <h2 class='four-fifth'>Hangman</h2>
+  <div class="fifth">
+    <button {{action "newGame"}}>New Game</button>
+  </div>
+</nav>
+
+<div id='main' class='row'>
+  {{#if gameOver}}
+    <h1>Game Over!</h1>
+  {{/if}}
+  <div id="game-board" class="four-fifth">
+    <form {{action 'playLetter' on='submit'}}>
+      <label>Guess a letter: {{input value=currentGuess maxlength=1 min=1 disabled=disabled}}</label>
+    </form>
+
+    <ul>
+      {{#each letter in shownLetters}}
+        <li>{{letter}}</li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <div id="sidebar" class="fifth">
+    <div class="row">
+      <div class="full">
+        Remaining: {{remaining}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="full">
+        <h3>Missed Letters</h3>
+        <ul>
+          {{#each letter in badLetters}}
+            <li>{{letter}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="full">
+    <h3>Actual Word Homie</h3>
+    <ul>
+      {{#each letter in actualLetters}}
+        <li>{{letter}}</li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
