@@ -24,7 +24,7 @@ export default Ember.Route.extend({
 
     playLetter: function () {
       var game = this.modelFor('index');
-      game.didEnterGuess();
+      game.trigger('didEnterGuess');
     }
   }
 

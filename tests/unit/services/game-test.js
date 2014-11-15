@@ -56,7 +56,7 @@ test("shownLetters & badLetters - after playing a BAD guess", function() {
 
   run(function () {
     service.set('currentGuess', 'b'); // given
-    service.didEnterGuess(); // when
+    service.trigger('didEnterGuess'); // when
   });
 
   // then
@@ -74,7 +74,7 @@ test("shownLetters - after playing a GOOD guess", function() {
 
   run(function () {
     service.set('currentGuess', 'o'); // given
-    service.didEnterGuess(); // when
+    service.trigger('didEnterGuess'); // when
   });
 
   // then

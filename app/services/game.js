@@ -17,7 +17,7 @@ import Ember from 'ember';
 //      nesting we have here
 
 export default Ember.Object.extend({
-  game: Ember.Object.extend({
+  game: Ember.Object.extend(Ember.Evented, {
     disabled: false,
     gameOver: false,
     currentGuess: null,
@@ -44,7 +44,7 @@ export default Ember.Object.extend({
 
     didEnterGuess: function () {
       Ember.run.once(this, '_handleGuess');
-    },
+    }.on('didEnterGuess'),
 
     didFinishGame: function () {
       Ember.run.once(this, '_finishGame');
@@ -59,10 +59,12 @@ export default Ember.Object.extend({
 
     _handleGuess: function () {
       if (!this.get('currentGuess')) { return; }
+
       var shownLetters = this.get('shownLetters');
       var actualLetters = this.get('actualLetters');
       var badLetters = this.get('badLetters');
       var currentGuess = this.get('currentGuess');
+
       this._resetCurrentGuess();
 
       if (actualLetters.indexOf(currentGuess) !== -1) {
