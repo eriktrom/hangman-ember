@@ -24,21 +24,8 @@ export default Ember.Route.extend({
 
     playLetter: function () {
       var game = this.modelFor('index');
-      this._submitGuess(game);
-      this._resetCurrentGuess(game);
+      game.didEnterGuess();
     }
-  },
-
-  _submitGuess: function (game) {
-    if (game.get('currentGuess')) {
-      game.decrementProperty('remaining');
-    }
-  },
-
-  _resetCurrentGuess: function (game) {
-    Ember.run.next(function () {
-      game.set('currentGuess', null);
-    });
   }
 
 });

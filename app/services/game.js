@@ -44,7 +44,7 @@ export default Ember.Object.extend({
 
     didEnterGuess: function () {
       Ember.run.once(this, '_handleGuess');
-    }.observes('remaining'),
+    },
 
     didFinishGame: function () {
       Ember.run.once(this, '_finishGame');
@@ -58,10 +58,12 @@ export default Ember.Object.extend({
     },
 
     _handleGuess: function () {
+      if (!this.get('currentGuess')) { return; }
       var shownLetters = this.get('shownLetters');
       var actualLetters = this.get('actualLetters');
       var badLetters = this.get('badLetters');
       var currentGuess = this.get('currentGuess');
+      this._resetCurrentGuess();
 
       if (actualLetters.indexOf(currentGuess) !== -1) {
         actualLetters.forEach(function (_, index) {
@@ -72,7 +74,15 @@ export default Ember.Object.extend({
         });
       } else {
         badLetters.pushObject(currentGuess);
+        this.decrementProperty('remaining');
       }
+    },
+
+    _resetCurrentGuess: function () {
+      var self = this;
+      Ember.run.next(function () {
+        self.set('currentGuess', null);
+      });
     }
   })
 });

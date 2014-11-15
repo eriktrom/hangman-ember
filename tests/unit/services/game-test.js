@@ -56,7 +56,7 @@ test("shownLetters & badLetters - after playing a BAD guess", function() {
 
   run(function () {
     service.set('currentGuess', 'b'); // given
-    service.decrementProperty('remaining'); // when
+    service.didEnterGuess(); // when
   });
 
   // then
@@ -65,22 +65,26 @@ test("shownLetters & badLetters - after playing a BAD guess", function() {
 
   deepEqual(service.get('badLetters'), ['b'],
     "badLetters should eq [b]");
+
+  equal(service.get('remaining'), 8, 'should decrement remaining by 1');
 });
 
 test("shownLetters - after playing a GOOD guess", function() {
   var service = subject();
 
   run(function () {
-    service.set('currentGuess', 'f'); // given
-    service.decrementProperty('remaining'); // when
+    service.set('currentGuess', 'o'); // given
+    service.didEnterGuess(); // when
   });
 
   // then
-  deepEqual(service.get('shownLetters'), ['f', '_', '_'],
-    "shownLetters should eq ['f', '_', '_']");
+  deepEqual(service.get('shownLetters'), ['_', 'o', 'o'],
+    "shownLetters should eq ['_', 'o', 'o']");
 
   deepEqual(service.get('badLetters'), [],
     "badLetters should eq []");
+
+  equal(service.get('remaining'), 9, 'should NOT decrement remaining by 1');
 });
 
 test("disabled - is set to true when 0 remaining", function() {
