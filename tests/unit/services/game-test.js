@@ -11,7 +11,7 @@ var service;
 function runSubject(context) {
   return function (options) {
     var result;
-    Ember.run(function () {
+    run(function () {
       result = context.subject(options || {words: ['foo']});
     });
     return result;
@@ -79,6 +79,8 @@ test("shownLetters - after playing a GOOD guess", function() {
 });
 
 test("state of the game when game is lost", function() {
+  expect(5);
+
   stop();
   run(function () {
     service.decrementProperty('remaining', 9); // when
@@ -88,34 +90,33 @@ test("state of the game when game is lost", function() {
   equal(service.get('isLoser'), true);
   equal(service.get('gameOver'), true);
   equal(service.get('disabled'), true);
-  Ember.run.next(function () {
+  run.next(function () {
     equal(service.get('currentGuess'), null);
     start();
   });
 });
 
 test("state of the game when game is won", function() {
+  expect(5);
+
+  stop();
   run(function () {
-    stop();
-    Ember.RSVP.resolve().then(function () {
-      service.set('currentGuess', 'f');
-      service.trigger('didEnterGuess');
-    })
-    .then(function () {
-      service.set('currentGuess', 'o');
-      service.trigger('didEnterGuess');
-    })
-    .then(function () {
-      Ember.run.once(function () {
-        equal(service.get('isWinner'), true);
-        equal(service.get('isLoser'), false);
-        equal(service.get('gameOver'), true);
-        equal(service.get('disabled'), true);
-      });
-      Ember.run.next(function () {
-        equal(service.get('currentGuess'), null);
-        start();
-      });
-    });
+    service.set('currentGuess', 'f');
+    service.trigger('didEnterGuess');
+  });
+
+  run(function () {
+    service.set('currentGuess', 'o');
+    service.trigger('didEnterGuess');
+  });
+
+  equal(service.get('isWinner'), true);
+  equal(service.get('isLoser'), false);
+  equal(service.get('gameOver'), true);
+  equal(service.get('disabled'), true);
+
+  run.next(function () {
+    equal(service.get('currentGuess'), null);
+    start();
   });
 });
