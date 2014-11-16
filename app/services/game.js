@@ -29,27 +29,8 @@ export default Ember.Object.extend(Ember.Evented, {
 
   didEnterGuess: function () {
     Ember.run.once(this, '_handleGuess');
+    Ember.run.once(this, '_handleFinish');
   }.on('didEnterGuess'),
-
-  didFinishGame: function () {
-    Ember.run.once(this, '_finishGame');
-  }.observes('remaining', 'shownLetters.[]'),
-
-  _finishGame: function () {
-    var isLoser = this.get('remaining') <= 0;
-    if (isLoser) {
-      this.set('gameOver', true);
-      this.set('disabled', true);
-      this.set('isLoser', true);
-    }
-
-    var isWinner = !this.get('shownLetters').contains('_');
-    if (isWinner) {
-      this.set('gameOver', true);
-      this.set('disabled', true);
-      this.set('isWinner', true);
-    }
-  },
 
   _handleGuess: function () {
     if (!this.get('currentGuess')) { return; }
@@ -71,6 +52,27 @@ export default Ember.Object.extend(Ember.Evented, {
     } else {
       badLetters.pushObject(currentGuess);
       this.decrementProperty('remaining');
+    }
+  },
+
+  _handleFinish: function () {
+    var isLoser = this.get('remaining') <= 0;
+    var isWinner = !this.get('shownLetters').contains('_');
+    var isFinished = isLoser || isWinner;
+
+    if (isFinished) {
+      this.setProperties({
+        gameOver: true,
+        disabled: true
+      });
+    }
+
+    if (isLoser) {
+      this.set('isLoser', true);
+    }
+
+    if (isWinner) {
+      this.set('isWinner', true);
     }
   }
 });

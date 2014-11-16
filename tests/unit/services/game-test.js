@@ -82,9 +82,12 @@ test("state of the game when game is lost", function() {
   expect(5);
 
   run(function () {
-    service.decrementProperty('remaining', 9); // when
+    service.decrementProperty('remaining', 8); // given 8 bad guesses
+    service.set('currentGuess', 'b'); // given another bad guess
+    service.trigger('didEnterGuess'); // when i hit enter
   });
 
+  // then, the state of the game should be
   equal(service.get('isWinner'), false);
   equal(service.get('isLoser'), true);
   equal(service.get('gameOver'), true);
