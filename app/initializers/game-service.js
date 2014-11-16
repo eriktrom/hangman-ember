@@ -1,5 +1,8 @@
+import Game from '../services/game';
+
 export function initialize(container, application) {
-  application.inject('route', 'gameService', 'service:game');
+  container.register('service:game', Game, {instantiate: false});
+  application.inject('route', 'game', 'service:game');
 }
 
 export default {

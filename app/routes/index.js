@@ -2,8 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function () {
-    // TODO: see services/game.js for analysis of this pattern
-    return this.gameService.game.create({
+    return this.game.create({
       words: [
         'foo',
         'bar',

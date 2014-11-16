@@ -8,32 +8,29 @@ var run = Ember.run;
 
 var service;
 
-function currySubject(context) {
-  return function (_options) {
-    var options = _options || {words: ['foo']}, result;
+function runSubject(context) {
+  return function (options) {
+    var result;
     Ember.run(function () {
-      result = context.subject().game.create(options);
+      result = context.subject(options || {words: ['foo']});
     });
     return result;
   };
 }
 
-var subject;
+var subject, service;
 moduleFor('service:game', 'GameService', {
   setup: function () {
-    subject = currySubject(this);
+    subject = runSubject(this);
+    service = subject();
   }
 });
 
 test('it exists', function() {
-  var service = subject();
-
   ok(service);
 });
 
 test("actualLetters - should return the actual letters", function() {
-  var service = subject();
-
   var expected = ['f', 'o', 'o'];
   var actual = service.get('actualLetters');
 
@@ -42,8 +39,6 @@ test("actualLetters - should return the actual letters", function() {
 });
 
 test("shownLetters - when a new game starts", function() {
-  var service = subject();
-
   var expected = ['_', '_', '_'];
   var actual = service.get('shownLetters');
 
@@ -52,8 +47,6 @@ test("shownLetters - when a new game starts", function() {
 });
 
 test("shownLetters & badLetters - after playing a BAD guess", function() {
-  var service = subject();
-
   run(function () {
     service.set('currentGuess', 'b'); // given
     service.trigger('didEnterGuess'); // when
@@ -70,8 +63,6 @@ test("shownLetters & badLetters - after playing a BAD guess", function() {
 });
 
 test("shownLetters - after playing a GOOD guess", function() {
-  var service = subject();
-
   run(function () {
     service.set('currentGuess', 'o'); // given
     service.trigger('didEnterGuess'); // when
@@ -88,8 +79,6 @@ test("shownLetters - after playing a GOOD guess", function() {
 });
 
 test("disabled - is set to true when 0 remaining", function() {
-  var service = subject();
-
   run(function () {
     service.decrementProperty('remaining', 9); // when
   });
@@ -98,8 +87,6 @@ test("disabled - is set to true when 0 remaining", function() {
 });
 
 test("gameOver - is set to true when 0 remaining", function() {
-  var service = subject();
-
   run(function () {
     service.decrementProperty('remaining', 9); // when
   });
