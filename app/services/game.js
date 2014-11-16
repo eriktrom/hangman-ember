@@ -59,7 +59,7 @@ export default Ember.Object.extend(Ember.Evented, {
     var badLetters = this.get('badLetters');
     var currentGuess = this.get('currentGuess');
 
-    this._resetCurrentGuess();
+    this.set('currentGuess', null);
 
     if (actualLetters.indexOf(currentGuess) !== -1) {
       actualLetters.forEach(function (_, index) {
@@ -72,12 +72,5 @@ export default Ember.Object.extend(Ember.Evented, {
       badLetters.pushObject(currentGuess);
       this.decrementProperty('remaining');
     }
-  },
-
-  _resetCurrentGuess: function () {
-    var self = this;
-    Ember.run.next(function () {
-      self.set('currentGuess', null);
-    });
   }
 });

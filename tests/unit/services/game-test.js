@@ -81,7 +81,6 @@ test("shownLetters - after playing a GOOD guess", function() {
 test("state of the game when game is lost", function() {
   expect(5);
 
-  stop();
   run(function () {
     service.decrementProperty('remaining', 9); // when
   });
@@ -90,16 +89,12 @@ test("state of the game when game is lost", function() {
   equal(service.get('isLoser'), true);
   equal(service.get('gameOver'), true);
   equal(service.get('disabled'), true);
-  run.next(function () {
-    equal(service.get('currentGuess'), null);
-    start();
-  });
+  equal(service.get('currentGuess'), null);
 });
 
 test("state of the game when game is won", function() {
   expect(5);
 
-  stop();
   run(function () {
     service.set('currentGuess', 'f');
     service.trigger('didEnterGuess');
@@ -114,9 +109,5 @@ test("state of the game when game is won", function() {
   equal(service.get('isLoser'), false);
   equal(service.get('gameOver'), true);
   equal(service.get('disabled'), true);
-
-  run.next(function () {
-    equal(service.get('currentGuess'), null);
-    start();
-  });
+  equal(service.get('currentGuess'), null);
 });
