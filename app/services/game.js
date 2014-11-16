@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Object.extend(Ember.Evented, {
   disabled: false,
   gameOver: false,
+  isWinner: false,
+  isLoser: false,
   currentGuess: null,
   shownLetters: null,
   badLetters: null,
@@ -31,12 +33,21 @@ export default Ember.Object.extend(Ember.Evented, {
 
   didFinishGame: function () {
     Ember.run.once(this, '_finishGame');
-  }.observes('remaining'),
+  }.observes('remaining', 'shownLetters.[]'),
 
   _finishGame: function () {
-    if (this.get('remaining') <= 0) {
+    var isLoser = this.get('remaining') <= 0;
+    if (isLoser) {
       this.set('gameOver', true);
       this.set('disabled', true);
+      this.set('isLoser', true);
+    }
+
+    var isWinner = !this.get('shownLetters').contains('_');
+    if (isWinner) {
+      this.set('gameOver', true);
+      this.set('disabled', true);
+      this.set('isWinner', true);
     }
   },
 

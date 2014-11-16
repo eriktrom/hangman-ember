@@ -6,9 +6,6 @@
 </nav>
 
 <div id='main' class='row'>
-  {{#if gameOver}}
-    <h1>Game Over!</h1>
-  {{/if}}
   <div id="game-board" class="four-fifth">
     <form {{action 'playLetter' on='submit'}}>
       <label>Guess a letter: {{input value=currentGuess maxlength=1 min=1 disabled=disabled}}</label>
@@ -19,6 +16,19 @@
         <li>{{letter}}</li>
       {{/each}}
     </ul>
+
+    {{#if gameOver}}
+      <div id="game-over">
+        <h1>Game Over</h1>
+        {{#if isWinner}}
+          <h2 class='winner'>You Won!</h2>
+        {{/if}}
+        {{#if isLoser}}
+          <h2 class='loser'>You Lost!</h2>
+        {{/if}}
+        <button {{action "newGame"}}>Play Again</button>
+      </div>
+    {{/if}}
   </div>
 
   <div id="sidebar" class="fifth">

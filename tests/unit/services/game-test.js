@@ -78,18 +78,44 @@ test("shownLetters - after playing a GOOD guess", function() {
   equal(service.get('remaining'), 9, 'should NOT decrement remaining by 1');
 });
 
-test("disabled - is set to true when 0 remaining", function() {
+test("state of the game when game is lost", function() {
+  stop();
   run(function () {
     service.decrementProperty('remaining', 9); // when
   });
 
-  ok(service.get('disabled') === true);
+  equal(service.get('isWinner'), false);
+  equal(service.get('isLoser'), true);
+  equal(service.get('gameOver'), true);
+  equal(service.get('disabled'), true);
+  Ember.run.next(function () {
+    equal(service.get('currentGuess'), null);
+    start();
+  });
 });
 
-test("gameOver - is set to true when 0 remaining", function() {
+test("state of the game when game is won", function() {
   run(function () {
-    service.decrementProperty('remaining', 9); // when
+    stop();
+    Ember.RSVP.resolve().then(function () {
+      service.set('currentGuess', 'f');
+      service.trigger('didEnterGuess');
+    })
+    .then(function () {
+      service.set('currentGuess', 'o');
+      service.trigger('didEnterGuess');
+    })
+    .then(function () {
+      Ember.run.once(function () {
+        equal(service.get('isWinner'), true);
+        equal(service.get('isLoser'), false);
+        equal(service.get('gameOver'), true);
+        equal(service.get('disabled'), true);
+      });
+      Ember.run.next(function () {
+        equal(service.get('currentGuess'), null);
+        start();
+      });
+    });
   });
-
-  ok(service.get('gameOver') === true);
 });
