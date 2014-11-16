@@ -1,7 +1,7 @@
 <nav class='row'>
   <h2 class='four-fifth'>Hangman</h2>
   <div class="fifth">
-    <button {{action "newGame"}}>New Game</button>
+    <button id="new-game" {{action "newGame"}}>New Game</button>
   </div>
 </nav>
 
@@ -12,7 +12,7 @@
         <label>Guess a letter: {{input value=currentGuess maxlength=1 min=1 disabled=disabled}}</label>
       </form>
 
-      <ul>
+      <ul id="shownLetters">
         {{#each letter in shownLetters}}
           <li>{{letter}}</li>
         {{/each}}
@@ -20,22 +20,20 @@
     {{/unless}}
 
     {{#if gameOver}}
-      <div id="game-over">
-        <h1>Game Over</h1>
-        {{#if isWinner}}
-          <h2 class='winner'>You Won!</h2>
-        {{/if}}
-        {{#if isLoser}}
-          <h2 class='loser'>You Lost!</h2>
-        {{/if}}
-        <button {{action "newGame"}}>Play Again</button>
-      </div>
+      <h1>Game Over</h1>
+      {{#if isWinner}}
+        <h2 class='winner'>You Won!</h2>
+      {{/if}}
+      {{#if isLoser}}
+        <h2 class='loser'>You Lost!</h2>
+      {{/if}}
+      <button {{action "newGame"}}>Play Again</button>
     {{/if}}
   </div>
 
   <div id="sidebar" class="fifth">
     <div class="row">
-      <div class="full">
+      <div id="remaining" class="full">
         Remaining: {{remaining}}
       </div>
     </div>
@@ -43,7 +41,7 @@
     <div class="row">
       <div class="full">
         <h3>Missed Letters</h3>
-        <ul>
+        <ul id="missedLetters">
           {{#each letter in badLetters}}
             <li>{{letter}}</li>
           {{/each}}

@@ -1,4 +1,4 @@
-import Game from '../services/game';
+import Game from 'hangman/services/game';
 
 export function initialize(container, application) {
   container.register('service:game', Game, {instantiate: false});

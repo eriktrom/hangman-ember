@@ -2,14 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function () {
-    return this.game.create({
-      words: [
-        'foo',
-        'bar',
-        'bittitan',
-        'something'
-      ]
-    });
+    return this.game.create();
   },
 
   deactivate: function () {

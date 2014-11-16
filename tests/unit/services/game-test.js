@@ -6,21 +6,13 @@ import {
 import Ember from 'ember';
 var run = Ember.run;
 
-function runSubject(context) {
-  return function (options) {
-    var result;
-    run(function () {
-      result = context.subject(options || {words: ['foo']});
-    });
-    return result;
-  };
-}
-
-var subject, service;
+var service;
 moduleFor('service:game', 'GameService', {
   setup: function () {
-    subject = runSubject(this);
-    service = subject();
+    var self = this;
+    run(function () {
+      service = self.subject({ words: ['foo'] });
+    });
   }
 });
 
