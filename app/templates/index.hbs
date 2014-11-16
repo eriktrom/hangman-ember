@@ -7,15 +7,17 @@
 
 <div id='main' class='row'>
   <div id="game-board" class="four-fifth">
-    <form {{action 'playLetter' on='submit'}}>
-      <label>Guess a letter: {{input value=currentGuess maxlength=1 min=1 disabled=disabled}}</label>
-    </form>
+    {{#unless gameOver}}
+      <form {{action 'playLetter' on='submit'}}>
+        <label>Guess a letter: {{input value=currentGuess maxlength=1 min=1 disabled=disabled}}</label>
+      </form>
 
-    <ul>
-      {{#each letter in shownLetters}}
-        <li>{{letter}}</li>
-      {{/each}}
-    </ul>
+      <ul>
+        {{#each letter in shownLetters}}
+          <li>{{letter}}</li>
+        {{/each}}
+      </ul>
+    {{/unless}}
 
     {{#if gameOver}}
       <div id="game-over">

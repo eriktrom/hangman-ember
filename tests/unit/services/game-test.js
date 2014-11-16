@@ -6,8 +6,6 @@ import {
 import Ember from 'ember';
 var run = Ember.run;
 
-var service;
-
 function runSubject(context) {
   return function (options) {
     var result;
