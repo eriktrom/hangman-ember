@@ -4,9 +4,7 @@ import startApp from '../helpers/start-app';
 import Game from 'hangman/services/game';
 Game.reopen({ words: ['foo'] });
 
-function $findShownLetters() {
-  return $('#shownLetters li');
-}
+var $shownLetter = '#shownLetters li';
 
 function $assertContains(text) {
   var result = find('#game-board:contains('+text+')').length;
@@ -58,7 +56,7 @@ test("The board should be empty when starting a new game", function() {
   visit(_route);
 
   andThen(function () {
-    equal($findShownLetters().length, 3);
+    expectElement($shownLetter, 3);
     equal($findShownLetter(1), '_');
     equal($findShownLetter(2), '_');
     equal($findShownLetter(3), '_');
@@ -70,7 +68,7 @@ test("Playing a GOOD letter", function() {
   $enterLetter('f');
 
   andThen(function () {
-    equal($findShownLetters().length, 3);
+    expectElement($shownLetter, 3);
     equal($findShownLetter(1), 'f');
     equal($findShownLetter(2), '_');
     equal($findShownLetter(3), '_');
@@ -82,7 +80,7 @@ test("Playing a BAD letter", function() {
   $enterLetter('b');
 
   andThen(function () {
-    equal($findShownLetters().length, 3);
+    expectElement($shownLetter, 3);
     equal($findShownLetter(1), '_');
     equal($findShownLetter(2), '_');
     equal($findShownLetter(3), '_');
